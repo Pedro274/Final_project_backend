@@ -11,6 +11,7 @@ class UserModel(db.Model):
     
     # table relationship
     details = db.relationship('UserDetailsModel')
+    favorite_games = db.relationship('FavoriteGamesModel', lazy= 'dynamic')
 
     def __init__(self, username, password):
         self.id = str(uuid.uuid4())
@@ -22,7 +23,8 @@ class UserModel(db.Model):
             "username": self.username,
             "password": self.password,
             "id": self.id,
-            "user_details": [detail.json() for detail in self.details]
+            "user_details": [detail.json() for detail in self.details],
+            "favorite_games": [game.json() for game in self.favorite_games.all()]
         }
 
     @classmethod

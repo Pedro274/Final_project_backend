@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from Models.user_details import UserDetailsModel
 from Models.user import UserModel
+from Tools.twilio import sms_contact
 
 
 class UserDetails(Resource):
@@ -26,6 +27,8 @@ class UserDetails(Resource):
                 return {"message": "These user details already exist if you want to update please create a put request"}
             new_user_details = UserDetailsModel(user_id, **data)
             new_user_details.save_user_details_to_db()
+            if new_user_details.phone:
+                sms_contact(new_user_details.phone, 'Thank you for providing your contact information glad, to have you with us')
             return {"message": "User details was created"}
         return{"message": "User do not exist"}
 
@@ -38,6 +41,8 @@ class UserDetails(Resource):
             user_details.address = data['address'] if data['address'] else user_details.address
             user_details.phone = data['phone'] if data['phone'] else user_details.phone
             user_details.save_user_details_to_db()
+            if user_details.phone:
+                sms_contact(user_details.phone, 'Thank you for updating your contact information, glad to have you with us')
             return {"message": "User details were updated"}
         return {"message": "User details do not exists"}
 

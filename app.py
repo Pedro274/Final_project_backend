@@ -2,6 +2,7 @@
 from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 # python
 import os
@@ -13,7 +14,7 @@ from blacklist import BLACKLIST
 from Resources.user import User, Users, Sign_up, Login, Logout, TokenRefresh
 from Resources.user_details import UserDetails
 from Resources.favorite_games import FavoriteGame
-
+from Tools import exemption
 
 app = Flask(__name__)
 api = Api(app)
@@ -24,7 +25,13 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(seconds=3600)
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 db.init_app(app)
+CORS(app)
 jwt = JWTManager(app)
+
+
+@app.errorhandler(APIException)
+def handle_invalid_usage(error):
+    return jsonify(error.to_dict()), error.status_code
 
 
 @jwt.expired_token_loader

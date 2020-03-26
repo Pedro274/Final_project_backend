@@ -47,18 +47,15 @@ def revoked_token_callback():
 def token_not_fresh_callback():
     return jsonify({"message": "Need fresh token to perform this accion", "error": "revoked_token"}),401
     
-
 @jwt.user_claims_loader
 def claim_callback(identity):
     if identity in os.getenv('ADMIN_ID'):
         return {'is_admin': True}
     return {'is_admin': False}
 
-
 @jwt.token_in_blacklist_loader
 def jwt_blacklist_callback(decrypted_token):
     return decrypted_token['jti'] in BLACKLIST
-
 
 @app.before_first_request
 def create_table():

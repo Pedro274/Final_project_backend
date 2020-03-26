@@ -33,7 +33,6 @@ jwt = JWTManager(app)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-
 @jwt.expired_token_loader
 def expire_token_callback():
     return jsonify({"message": "Please log back in to have access to your account", "error": "token_expire"}), 401

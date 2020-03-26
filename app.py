@@ -14,7 +14,7 @@ from blacklist import BLACKLIST
 from Resources.user import User, Users, Sign_up, Login, Logout, TokenRefresh
 from Resources.user_details import UserDetails
 from Resources.favorite_games import FavoriteGame
-from Tools import exemption
+from Tools.exception import APIException
 
 app = Flask(__name__)
 api = Api(app)

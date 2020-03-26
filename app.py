@@ -31,16 +31,22 @@ jwt = JWTManager(app)
 def expire_token_callback():
     return jsonify({"message": "Please log back in to have access to your account", "error": "token_expire"}), 401
 
-
 @jwt.invalid_token_loader
 def invalid_token_callback(error):
     return jsonify({"message": "Signature verification fail", "error": "invalid_token_loader"}), 401
 
+@jwt.unauthorized_loader
+def missing_token_callback():
+    return jsonify({"message": "Request does not contain an access token"}),401
 
 @jwt.revoked_token_loader
 def revoked_token_callback():
-    return jsonify({"message": "User logged out of the account", "error": "revoked_token"})
+    return jsonify({"message": "User logged out of the account", "error": "revoked_token"}),401
 
+@jwt.needs_fresh_token_loader
+def token_not_fresh_callback():
+    return jsonify({"message": "Need fresh token to perform this accion", "error": "revoked_token"}),401
+    
 
 @jwt.user_claims_loader
 def claim_callback(identity):

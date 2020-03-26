@@ -1,3 +1,4 @@
 .env
 blacklist.py
 data.db
+__pycache__/

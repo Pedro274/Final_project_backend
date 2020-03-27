@@ -14,6 +14,7 @@ from blacklist import BLACKLIST
 from Resources.user import User, Users, Sign_up, Login, Logout, TokenRefresh
 from Resources.user_details import UserDetails
 from Resources.favorite_games import FavoriteGame
+from Tools.exception import APIException
 
 app = Flask(__name__)
 api = Api(app)
@@ -33,31 +34,45 @@ jwt = JWTManager(app)
 def expire_token_callback():
     return jsonify({"message": "Please log back in to have access to your account", "error": "token_expire"}), 401
 
+
 @jwt.invalid_token_loader
 def invalid_token_callback(error):
     return jsonify({"message": "Signature verification fail", "error": "invalid_token_loader"}), 401
 
+
 @jwt.unauthorized_loader
 def missing_token_callback():
-    return jsonify({"message": "Request does not contain an access token"}),401
+    return jsonify({"message": "Request does not contain an access token"}), 401
+
 
 @jwt.revoked_token_loader
 def revoked_token_callback():
-    return jsonify({"message": "User logged out of the account", "error": "revoked_token"}),401
+    return jsonify({"message": "User logged out of the account", "error": "revoked_token"}), 401
+
 
 @jwt.needs_fresh_token_loader
 def token_not_fresh_callback():
-    return jsonify({"message": "Need fresh token to perform this accion", "error": "revoked_token"}),401
-    
+    return jsonify({"message": "Need fresh token to perform this accion", "error": "revoked_token"}), 401
+
+
 @jwt.user_claims_loader
 def claim_callback(identity):
     if identity in os.getenv('ADMIN_ID'):
         return {'is_admin': True}
     return {'is_admin': False}
 
+
+@app.errorhandler(APIException)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
+
 @jwt.token_in_blacklist_loader
 def jwt_blacklist_callback(decrypted_token):
     return decrypted_token['jti'] in BLACKLIST
+
 
 @app.before_first_request
 def create_table():

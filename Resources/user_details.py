@@ -18,6 +18,9 @@ class UserDetails(Resource):
     parser.add_argument("phone",
                         type=int,
                         help="Please provide valid phone number")
+    parser.add_argument("email",
+                        type=str,
+                        help="Please provide valid email")
 
     def post(self, user_id):
         data = self.parser.parse_args()
@@ -40,6 +43,7 @@ class UserDetails(Resource):
             user_details.last_name = data['last_name'] if data['last_name'] else user_details.last_name
             user_details.address = data['address'] if data['address'] else user_details.address
             user_details.phone = data['phone'] if data['phone'] else user_details.phone
+            user_details.email = data['email'] if data['email'] else user_details.email
             user_details.save_user_details_to_db()
             if user_details.phone:
                 sms_contact(user_details.phone, 'Thank you for updating your contact information, glad to have you with us')

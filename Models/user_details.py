@@ -10,25 +10,28 @@ class UserDetailsModel(db.Model):
     last_name = db.Column(db.String(80))
     address = db.Column(db.String(80))
     phone = db.Column(db.Integer())
+    email = db.Column(db.String(80))
 
     #user relationship
     user_id = db.Column(db.String(80), db.ForeignKey('users.id'))
     user = db.relationship('UserModel')
 
-    def __init__(self, user_id, name, last_name, address, phone):
+    def __init__(self, user_id, name, last_name, address, phone, email):
         self.id = str(uuid.uuid4())
         self.user_id = user_id
         self.name = name
         self.last_name = last_name
         self.address = address
         self.phone = phone
+        self.email
 
     def json(self):
         return {
             "name": self.name,
             "last_name": self.last_name,
             "address": self.address,
-            "phone": self.phone
+            "phone": self.phone,
+            "email": self.email
         }
 
     @classmethod

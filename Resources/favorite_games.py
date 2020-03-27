@@ -29,13 +29,13 @@ class FavoriteGame(Resource):
     def delete(self, user_id):
         game_url_id = request.args.get('game_url_id')
         if not game_url_id:
-            return {"message": "Please provide a game_url_id as query parameter to remove it from the list"}
+            return {"message": "Please provide a (game_url_id = ? ) as query parameter to remove it from the list"}
         if UserModel.find_by_id(user_id):
             favorite_games = FavoriteGamesModel.find_favorite_games_by_user_id(user_id)
             for favorite_game in favorite_games:
                 if favorite_game.game_url_id == int(game_url_id):
                     favorite_game.remove_favorite_game()
-                    return {"message":"Game was removed from the list of favorites"}
+                    return {"message":"Game was removed from the list of favorites"},202
             return {"message":"Game is not in the list of favorites"}
         return{"message": "User do not exist"}
     

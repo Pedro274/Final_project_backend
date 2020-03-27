@@ -29,7 +29,7 @@ CORS(app)
 jwt = JWTManager(app)
 
 
-@expire_token_callback
+@jwt.expired_token_loader
 def expire_token_callback():
     return jsonify({"message": "Please log back in to have access to your account", "error": "token_expire"}), 401
 
@@ -75,4 +75,4 @@ api.add_resource(TokenRefresh, '/refresh')
 
 
 if __name__ == "__main__":
-    app.run(port=3000)
+    app.run(port=3000, debug=True)

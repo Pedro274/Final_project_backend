@@ -23,6 +23,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(seconds=3600)
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
+app.config['PROPAGATE_EXCEPTIONS'] = True
 db.init_app(app)
 CORS(app)
 jwt = JWTManager(app)
@@ -74,4 +75,4 @@ api.add_resource(TokenRefresh, '/refresh')
 
 
 if __name__ == "__main__":
-    app.run(port=3000, debug=True)
+    app.run(port=3000)

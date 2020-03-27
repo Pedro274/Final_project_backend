@@ -58,7 +58,16 @@ class User(Resource):
 
     @fresh_jwt_required
     def put(self):
-        data = _parser.parse_args()
+        parser = reqparse.RequestParser()
+        parser.add_argument("username",
+                            type=str,
+                            required=True,
+                            help="Username required to update the  account")
+        parser.add_argument("password",
+                            type=str,
+                            required=True,
+                            help="Password required to update the account")
+        data = parser.parse_args()
         user_id = get_jwt_identity()
         user = UserModel.find_by_id(user_id)
         if safe_str_cmp(user.password, data['password']):

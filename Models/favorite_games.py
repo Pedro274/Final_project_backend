@@ -7,7 +7,7 @@ class FavoriteGamesModel(db.Model):
 
     id = db.Column(db.String(80), primary_key=True)
     game_name = db.Column(db.String(80))
-    game_url_id = db.Column(db.Integer(), nullable=False)
+    game_url_id = db.Column(db.BigInteger()(), nullable=False)
 
     # user relationship
     user_id = db.Column(db.String(80), db.ForeignKey('users.id'))

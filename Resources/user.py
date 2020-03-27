@@ -17,13 +17,13 @@ from flask_jwt_extended import (
 
 _parser = reqparse.RequestParser()
 _parser.add_argument("username",
-                     type=str,
-                     required=True,
-                     help="Username required to create a new account")
+                    type=str,
+                    required=True,
+                    help="Username required to create a new account")
 _parser.add_argument("password",
-                     type=str,
-                     required=True,
-                     help="Password required to create a new account")
+                    type=str,
+                    required=True,
+                    help="Password required to create a new account")
 
 
 class Sign_up(Resource):
@@ -61,6 +61,8 @@ class User(Resource):
         data = _parser.parse_args()
         user_id = get_jwt_identity()
         user = UserModel.find_by_id(user_id)
+        if safe_str_cmp(user.password, data['password']):
+            return {"message": "You are using the same password please change it"}
         user.username = data['username']
         user.password = data['password']
         user.save_to_db()

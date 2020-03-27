@@ -9,7 +9,7 @@ class UserDetailsModel(db.Model):
     name = db.Column(db.String(80))
     last_name = db.Column(db.String(80))
     address = db.Column(db.String(80))
-    phone = db.Column(db.Integer())
+    phone = db.Column(db.BigInteger())
     email = db.Column(db.String(80))
 
     #user relationship

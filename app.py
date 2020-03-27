@@ -14,7 +14,6 @@ from blacklist import BLACKLIST
 from Resources.user import User, Users, Sign_up, Login, Logout, TokenRefresh
 from Resources.user_details import UserDetails
 from Resources.favorite_games import FavoriteGame
-from Tools.exception import APIException
 
 app = Flask(__name__)
 api = Api(app)
@@ -29,11 +28,7 @@ CORS(app)
 jwt = JWTManager(app)
 
 
-@app.errorhandler(APIException)
-def handle_invalid_usage(error):
-    return jsonify(error.to_dict()), error.status_code
-
-@jwt.expired_token_loader
+@expire_token_callback
 def expire_token_callback():
     return jsonify({"message": "Please log back in to have access to your account", "error": "token_expire"}), 401
 

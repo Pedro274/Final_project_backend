@@ -23,7 +23,7 @@ class UserDetailsModel(db.Model):
         self.last_name = last_name
         self.address = address
         self.phone = phone
-        self.email
+        self.email = email
 
     def json(self):
         return {

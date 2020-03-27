@@ -62,16 +62,16 @@ def claim_callback(identity):
     return {'is_admin': False}
 
 
+@jwt.token_in_blacklist_loader
+def jwt_blacklist_callback(decrypted_token):
+    return decrypted_token['jti'] in BLACKLIST
+
+
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
-
-
-@jwt.token_in_blacklist_loader
-def jwt_blacklist_callback(decrypted_token):
-    return decrypted_token['jti'] in BLACKLIST
 
 
 @app.before_first_request

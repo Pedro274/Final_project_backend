@@ -18,6 +18,7 @@ from Tools.exception import APIException
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app, allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Credentials"],supports_credentials=True)
 app.config['JWT_SECRET_KEY'] = 'kfj3etfht'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -26,7 +27,6 @@ app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 app.config['PROPAGATE_EXCEPTIONS'] = True
 db.init_app(app)
-CORS(app)
 jwt = JWTManager(app)
 
 

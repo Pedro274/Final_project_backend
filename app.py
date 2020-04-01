@@ -18,7 +18,7 @@ from Tools.exception import APIException
 
 app = Flask(__name__)
 api = Api(app)
-CORS(app, allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Credentials"],supports_credentials=True)
+CORS(app)
 app.config['JWT_SECRET_KEY'] = 'kfj3etfht'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -90,4 +90,4 @@ api.add_resource(TokenRefresh, '/refresh')
 
 
 if __name__ == "__main__":
-    app.run(port=3000)
+    app.run()

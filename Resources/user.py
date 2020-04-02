@@ -98,7 +98,7 @@ class Login(Resource):
                 "token": token,
                 "refresh_token": refresh_token
             }, 200
-        return {"message": "Invalid credentials"}
+        return {"message": "Invalid credentials"},401
 
 
 class Logout(Resource):

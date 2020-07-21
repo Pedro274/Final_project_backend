@@ -11,9 +11,9 @@ class UserDetailsModel(db.Model):
     address = db.Column(db.String(80))
     phone = db.Column(db.BigInteger())
     email = db.Column(db.String(80))
+    user_id = db.Column(db.String(80), db.ForeignKey('users.id'))
 
     #user relationship
-    user_id = db.Column(db.String(80), db.ForeignKey('users.id'))
     user = db.relationship('UserModel')
 
     def __init__(self, user_id, name, last_name, address, phone, email):

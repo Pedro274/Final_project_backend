@@ -8,9 +8,9 @@ class FavoriteGamesModel(db.Model):
     id = db.Column(db.String(80), primary_key=True)
     game_name = db.Column(db.String(80))
     game_url_id = db.Column(db.BigInteger(), nullable=False)
+    user_id = db.Column(db.String(80), db.ForeignKey('users.id'))
 
     # user relationship
-    user_id = db.Column(db.String(80), db.ForeignKey('users.id'))
     user = db.relationship('UserModel')
 
     def __init__(self, user_id, game_name, game_url_id):

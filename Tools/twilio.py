@@ -1,7 +1,6 @@
 import os
 from twilio.rest import Client
 
-
 def sms_contact(phone_to_contact, message):
     account_sid = os.getenv('ACCOUNT_SID')
     auth_token = os.getenv('AUTH_TOKEN')

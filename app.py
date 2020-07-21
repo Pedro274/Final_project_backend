@@ -52,7 +52,7 @@ def revoked_token_callback():
 
 @jwt.needs_fresh_token_loader
 def token_not_fresh_callback():
-    return jsonify({"message": "Need fresh token to perform this accion", "error": "revoked_token"}), 401
+    return jsonify({"message": "Need fresh token to perform this action", "error": "revoked_token"}), 401
 
 
 @jwt.user_claims_loader

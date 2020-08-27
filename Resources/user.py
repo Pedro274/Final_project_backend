@@ -41,7 +41,6 @@ class Sign_up(Resource):
                 'ADMIN_PHONE'), f"A new user just created an account (username: {username}) that makes {count_of_users} users")
         return {"message": "Acccount was created successfully"}, 201
 
-
 class User(Resource):
     @jwt_required
     def get(self):
